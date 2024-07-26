@@ -15,6 +15,7 @@ export class AuthDatasourceImpl implements  AuthDatasource {
    try {
 
     const {password,email} = registerUserDto
+    console.log(registerUserDto)
 
     
     const isEmail = await User.findOne({email})
@@ -27,7 +28,7 @@ export class AuthDatasourceImpl implements  AuthDatasource {
     registerUserDto.password = hashPassword
 
     const user = await User.create(registerUserDto)
-    
+    console.log(user)
     return UserEntity.mapper(user)
     
    } catch (error) {
@@ -41,9 +42,12 @@ export class AuthDatasourceImpl implements  AuthDatasource {
 
   async login(loginUserDto: LoginDto): Promise<UserEntity> {
 
-
+      try {
+        
        const {email,password} = loginUserDto
+       console.log(email)
        const user = await User.findOne({email})
+       console.log(user)
        if(!user) throw new Error("este correo no esta registrado")
 
       const isPassword = PasswordHash.comparePassword(password,user.password)
@@ -51,6 +55,9 @@ export class AuthDatasourceImpl implements  AuthDatasource {
       
      return UserEntity.mapper(user)
 
+      } catch (error) {
+          throw new Error(error as string)
+      }
 
    }
 }

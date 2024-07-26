@@ -1,4 +1,4 @@
-import { RegisterDto } from "../dtos";
+import { LoginDto, RegisterDto } from "../dtos";
 import { AuthRepository } from "../repositories/AuthRepository";
 import { JWT } from "../../config/jwt";
 
@@ -9,15 +9,15 @@ type SignToken = (payload:Object,time:string) => string
 
 
 type UserToken = {
-    token: string,
     user: {
         id:string,
-        name: string
+        name: string,
+        token: string
     }
 }
 
 
-class RegisterUser {
+export class LoginUser {
 
     constructor(
         private authRepository : AuthRepository,
@@ -25,14 +25,16 @@ class RegisterUser {
     ){}
 
 
-    async execute(registerDto: RegisterDto): Promise<UserToken>{
+    async execute(registerDto: LoginDto): Promise<UserToken>{
 
      const user = await this.authRepository.login(registerDto)
-     const token = this.signToken(user,"5h")
+     const token = this.signToken({...user},"5h")
 
         return {
-            token,
-            user
+           user:{
+            ...user,
+            token
+           }
         }
 
     }

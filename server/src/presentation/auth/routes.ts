@@ -24,7 +24,7 @@ export class AuthRoutes {
     // Definir todas mis rutas principales
     
     router.post('/register', controller.register.bind(controller))
-    
+    router.post('/login', controller.login.bind(controller))
    
     
     

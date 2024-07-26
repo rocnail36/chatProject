@@ -5,9 +5,9 @@
 export class RegisterDto {
 
    private constructor(
-        public password:string,
-        public name: string,
-        public email: string
+        public name:string,
+        public email: string,
+        public password: string
     ){}
 
 
@@ -25,7 +25,7 @@ export class RegisterDto {
         
 
 
-        return [undefined,new RegisterDto(password,email,name)]
+        return [undefined,new RegisterDto(name,email,name)]
 
     }
 
