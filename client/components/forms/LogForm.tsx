@@ -76,7 +76,7 @@ const LogForm = () => {
           )}
         />
 
-        <Button className='border-solid w-full bg-sky-400 text-white' type="submit">Ingresar</Button>
+        <Button className='border-solid w-full bg-blue-700 text-white' type="submit">Ingresar</Button>
       </form>
     </Form>
     </div>  
