@@ -44,7 +44,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           };
 
           user = await pFecth(
-            "http://localhost:8080/api/auth/register",
+            "/auth/register",
             "POST",
             bodyUser
           );
@@ -55,7 +55,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           };
 
           user = await pFecth(
-            "http://localhost:8080/api/auth/login",
+            "/auth/login",
             "POST",
             bodyUser
           );

@@ -5,6 +5,7 @@ import { Search } from '@/components/forms'
 import { ListImportants, ListMessage} from '../../../components/pages/app/index'
 import React from 'react'
 import { auth } from '@/auth'
+import { pFecth } from '@/lib'
 
 const page = async({searchParams}:{
   params: { slug: string }
@@ -12,8 +13,11 @@ const page = async({searchParams}:{
 }) => {
   
   const session = await auth()
-  console.log(session)
-  console.log("gola")
+  
+
+  const users = await pFecth("/user","GET",{id:session?.user.id})
+
+  console.log(users)
 
   return (
     <div className='m-auto px-4'>
