@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { AuthDatasourceImpl } from '../../structure/dataSources/AuthDataSourceImpl';
 import { AuthRepository } from '../../domain/repositories/AuthRepository';
-import { AuthRepositoryImpl } from '../../structure/repositories/AuthRepositorieImpl';
+import { AuthRepositoryImpl } from '../../structure/repositories/AuthRepositorie.Impl';
 import { AuthController } from './controller';
 
 

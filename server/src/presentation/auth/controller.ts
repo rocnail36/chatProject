@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { AuthRepository } from "../../domain/repositories/AuthRepository";
-import { RegisterUser } from "../../domain/useCases/Register-user.user-case";
+import { RegisterUser } from "../../domain/useCases/auth/Register-user.use-case";
 import { LoginDto, RegisterDto} from "../../domain/dtos";
-import { LoginUser } from "../../domain/useCases/Login-user.user-case";
+import { LoginUser } from "../../domain/useCases/auth/Login-user.use-case";
 
 
 
@@ -27,7 +27,7 @@ export class AuthController {
 
         new RegisterUser(this.repository)
         .execute(dto!)
-        .then(result => res.status(402).json(result))
+        .then(result => res.status(201).json(result))
         .catch(error => {
             res.status(400).json(error.message)
         })
@@ -37,7 +37,6 @@ export class AuthController {
 
     login(req:Request,res:Response){
 
-        console.log(req.body,"s")
        const [error,dto] = LoginDto.createDto(req.body)
 
         if(error) return res.status(400).json(error)

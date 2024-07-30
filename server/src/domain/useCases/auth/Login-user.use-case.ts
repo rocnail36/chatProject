@@ -1,6 +1,6 @@
-import { LoginDto, RegisterDto } from "../dtos";
-import { AuthRepository } from "../repositories/AuthRepository";
-import { JWT } from "../../config/jwt";
+import { LoginDto, RegisterDto } from "../../dtos";
+import { AuthRepository } from "../../repositories/AuthRepository";
+import { JWT } from "../../../config/jwt";
 
 
 

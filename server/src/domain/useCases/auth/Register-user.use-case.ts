@@ -1,7 +1,7 @@
 import { promises } from "dns";
-import { RegisterDto } from "../dtos";
-import { AuthRepository } from "../repositories/AuthRepository";
-import { JWT } from "../../config/jwt";
+import { RegisterDto } from "../../dtos";
+import { AuthRepository } from "../../repositories/AuthRepository";
+import { JWT } from "../../../config/jwt";
 
 
 

@@ -14,6 +14,7 @@ import {
   FormMessage,
 } from "@/components/ui/form" 
 import { Input } from '../ui/input'
+import { sign } from '@/actions/sign.action'
 
 const formSchema = z.object({
     password: z.string({message:"se requiere contraseña"}).min(2).max(50),
@@ -46,8 +47,12 @@ const RegisterForm = () => {
       })
      
       // 2. Define a submit handler.
-      function onSubmit(values: z.infer<typeof formSchema>) {
-    
+     async function onSubmit(values: z.infer<typeof formSchema>) {
+
+      values
+        sign(values)
+        .then(res => console.log(res))
+        .catch(err => console.log(err))
         
       }
 

@@ -4,12 +4,17 @@
 import { Search } from '@/components/forms'
 import { ListImportants, ListMessage} from '../../../components/pages/app/index'
 import React from 'react'
+import { auth } from '@/auth'
 
-const page = ({searchParams}:{
+const page = async({searchParams}:{
   params: { slug: string }
     searchParams: { [key: string]: string | string[] | undefined }
 }) => {
-  console.log(searchParams)
+  
+  const session = await auth()
+  console.log(session)
+  console.log("gola")
+
   return (
     <div className='m-auto px-4'>
          <Search />

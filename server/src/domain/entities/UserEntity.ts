@@ -7,13 +7,14 @@ export class UserEntity  {
         public id : string,
         public name: string,
         public email: string,
-        public password: string
+        public password: string,
+        public userFriends ?: UserEntity[]
     ){}
 
 
     static mapper(user:{[key:string]:any}){
 
-       const {_id,id,name,email,password} = user
+       const {_id,id,name,email,password,userFriends} = user
 
        if(!_id||!id) throw new Error("debe tener un id")
        if(!name) throw new Error("debe tene un nombre")
@@ -24,7 +25,8 @@ export class UserEntity  {
                 _id || id,
                 name,
                 email,
-                password
+                password,
+                userFriends || []
             )
 
     }
