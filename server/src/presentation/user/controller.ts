@@ -13,12 +13,14 @@ export class UserController {
 
     getAllUser(req:Request,res:Response){
 
-        const [err,dto] = GetAllUsersDto.create((req.body))
+        console.log(req.params,"auit")
+
+        const [err,dto] = GetAllUsersDto.create((req.params))
 
         if(err) return res.status(400).json({err})
 
         new getAllUsers(this.repository)
-        .execute(dto!)
+        .execute(dto!,req.params.query)
         .then(response => res.json(response))
         .catch(err => res.status(400).json(err))
 

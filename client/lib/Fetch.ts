@@ -1,7 +1,7 @@
 
 
 
-export async function pFecth (url:string,type:string,object:Object,cache?:RequestCache):Promise<any>{
+export async function pFecth (url:string,type:string,object?:Object,cache?:RequestCache):Promise<any>{
 
 
     try {
@@ -9,7 +9,7 @@ export async function pFecth (url:string,type:string,object:Object,cache?:Reques
 
         const res = await fetch(`http://localhost:8080/api${url}`,{
             method:type,
-            body: JSON.stringify(object),
+            body: object ? JSON.stringify(object): undefined,
             headers:{
                'Content-Type': 'application/json'
             },
@@ -17,8 +17,7 @@ export async function pFecth (url:string,type:string,object:Object,cache?:Reques
            })  
         
         const data = await res.json()
-
-
+       
         return data 
         
     } catch (error) {

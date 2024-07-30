@@ -1,7 +1,16 @@
-import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
+import { Avatar, AvatarImage,AvatarFallback } from '@radix-ui/react-avatar'
+import clsx from 'clsx'
 import React from 'react'
 
-const ContactItem = async() => {
+
+
+type props = {
+  id:string
+  name:string,
+  status: string
+}
+
+const ContactItem = async({name,id, status}:props) => {
 
 
 
@@ -13,14 +22,14 @@ const ContactItem = async() => {
     <Avatar className="overflow-hidden mr-4 w-[50px] h-[50px]">
    <AvatarImage
      className="w-[50px] h-[50px] rounded-[50%]"
-     src="https://github.com/shadcn.png"
+     src="https://cdn-icons-png.flaticon.com/512/6326/6326055.png"
      alt="@shadcn"
    />
    
    </Avatar>
-   <p>John Doe</p>
+   <p>{name}</p>
     </div>
-   <div className="h-[20px] w-[20px] rounded-[50%] bg-green-400" />
+   <div className={`h-[20px] w-[20px] rounded-[50%]  ${clsx({"bg-green-400": status == "connected", "bg-red-400": status == "offline"})}  bg-green-400`} />
        </div>
   )
 }

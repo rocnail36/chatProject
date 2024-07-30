@@ -3,5 +3,5 @@ import { UserEntity } from "../entities";
 
 
 export abstract class UserDataSource {
-    abstract getAllUsers(getAllUserDto:GetAllUsersDto):Promise<UserEntity[]>
+    abstract getAllUsers(getAllUserDto:GetAllUsersDto,query?:string):Promise<UserEntity[]>
 }

@@ -10,8 +10,8 @@ export class UserRepositoryImpl implements UserRepository {
 
     }
 
-   async getAllUsers(getAllUsersDto: GetAllUsersDto): Promise<UserEntity[]> {
-            return await this.userDataSource.getAllUsers(getAllUsersDto)
+   async getAllUsers(getAllUsersDto: GetAllUsersDto,query?:string): Promise<UserEntity[]> {
+            return await this.userDataSource.getAllUsers(getAllUsersDto,query)
     }
 
 

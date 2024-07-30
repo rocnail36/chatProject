@@ -14,7 +14,7 @@ export class UserRoutes {
     const repository = new UserRepositoryImpl(dataSource);
     const controller = new UserController(repository);
 
-    router.get("/", controller.getAllUser.bind(controller));
+    router.get("/:id/:query?", controller.getAllUser.bind(controller));
 
     return router;
   }

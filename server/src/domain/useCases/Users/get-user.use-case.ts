@@ -7,9 +7,9 @@ export class getAllUsers {
 
     constructor(private repository:UserRepository){}
 
-   async execute(GetAllUsersDto:GetAllUsersDto):Promise<UserEntity[]>{
+   async execute(GetAllUsersDto:GetAllUsersDto,query:string):Promise<UserEntity[]>{
          
-             return await this.repository.getAllUsers(GetAllUsersDto)
+             return await this.repository.getAllUsers(GetAllUsersDto,query)
           
     }
 
