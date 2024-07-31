@@ -18,6 +18,8 @@ export class UserDataSourceImpl extends UserDataSource {
             if(query){
               searchQuery.name = {$regex:query, $options:'i'}
             } 
+
+         
            
             const data = await  User.find(searchQuery,{password:0})
             console.log(data)
@@ -30,5 +32,23 @@ export class UserDataSourceImpl extends UserDataSource {
        }
 
     }   
+
+  async changeState(id: string,status:boolean): Promise<UserEntity> {
+          
+     try {
+        const user = await User.findByIdAndUpdate(id,{status:status ? "connected" : "offline"},{returnDocument:"after"})
+        
+        if(!user) throw new Error("usuario no encontrado")
+      
+        const userEntity = UserEntity.mapper(user)
+        
+          
+        return userEntity
+
+     } catch (error) {
+         throw new Error(error as string)
+     }
+
+  }  
 
 }

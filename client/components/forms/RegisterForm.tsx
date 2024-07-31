@@ -14,7 +14,8 @@ import {
   FormMessage,
 } from "@/components/ui/form" 
 import { Input } from '../ui/input'
-import { sign } from '@/actions/sign.action'
+import { sign } from '@/actions'
+
 
 const formSchema = z.object({
     password: z.string({message:"se requiere contraseña"}).min(2).max(50),

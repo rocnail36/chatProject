@@ -1,12 +1,13 @@
-import { auth } from "@/auth";
+"use client"
+
+import { getUsersContacts } from "@/actions";
 import { Search } from "@/components/forms";
 import ContactItem from "@/components/pages/contact/ContactItem";
-import { pFecth } from "@/lib";
+import { SocketContext } from "@/providers/SocketProvider";
 import { User } from "@/types";
+import React, { useContext, useEffect, useState } from "react";
 
-import React from "react";
-
-const page = async ({
+const page = ({
   searchParams,
 }: {
   searchParams: {
@@ -14,30 +15,51 @@ const page = async ({
   };
 }) => {
 
+  const {socket} = useContext(SocketContext)
   let InputSearch = searchParams.input ?? "";
+  const [users, setusers] = useState<User[]>([]);
 
-  const session = await auth();
-  let users;
-  try {
-    users = await pFecth(
-      `/user/${session?.user.id}${InputSearch ? `/${InputSearch}`: ""}`,
-      "GET",
-      undefined,
-      "no-cache"
-    );
-    console.log(users);
-  } catch (error) {
-    console.log(error);
-  }
+
+  useEffect(() => {
+    getUsersContacts(InputSearch)
+      .then((res) => {
+        console.log(res)
+        setusers(res)
+      })
+      .catch((err) => console.log(err));
+  }, [InputSearch]);
+  
+  useEffect(() => {
+     socket?.on("user-connected",(data) => {
+      setusers(old => old.map(user => user.id == data.id ? data : user))
+     })
+     return () => {
+      socket?.off("user-connected")
+     } 
+  },[socket])
+
+  useEffect(() => {
+    socket?.on("user-disconnected",(data) => {
+      console.log("aqui pancho")
+      setusers(old => old.map(user => user.id == data.id ? data : user))
+     })
+     return () => {
+      socket?.off("user-disconnected")
+     } 
+
+    
+  },[socket])
+
+
 
   return (
     <div className="m-auto">
       <Search input={InputSearch} />
 
       <div className="mt-4">
-       {users.map((user:User) => (
-        <ContactItem  {...user}/>
-       ))}
+        {users?.map((user: User) => (
+          <ContactItem {...user} />
+        ))}
       </div>
     </div>
   );

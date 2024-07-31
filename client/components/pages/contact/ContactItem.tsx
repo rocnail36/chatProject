@@ -10,7 +10,7 @@ type props = {
   status: string
 }
 
-const ContactItem = async({name,id, status}:props) => {
+const ContactItem = ({name,id, status}:props) => {
 
 
 

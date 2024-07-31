@@ -10,6 +10,7 @@ export class PasswordHash {
    }
 
    static async comparePassword (password:string,hashPassword:string){
+      
     return await bcript.compare(password,hashPassword)
    }
 

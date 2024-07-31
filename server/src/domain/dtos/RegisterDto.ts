@@ -25,7 +25,7 @@ export class RegisterDto {
         
 
 
-        return [undefined,new RegisterDto(name,email,name)]
+        return [undefined,new RegisterDto(name,email,password)]
 
     }
 

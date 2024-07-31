@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import SockectProvider from "@/providers/SocketProvider";
 
 const roboto = Roboto({ subsets: ["latin"] ,weight:["100","300","400","500","700","900"],variable:"--font-roboto"});
 
@@ -17,10 +18,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <SockectProvider>
       <body className={cn(
           "font-roboto",
           roboto.variable
         )}>{children}</body>
+        </SockectProvider>
     </html>
   );
 }

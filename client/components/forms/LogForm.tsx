@@ -14,7 +14,8 @@ import {
   FormMessage,
 } from "@/components/ui/form" 
 import { Input } from '../ui/input'
-import { sign } from '@/actions/sign.action'
+import { sign } from '@/actions'
+
 
 
  
@@ -25,6 +26,7 @@ const formSchema = z.object({
 
 const LogForm = () => {
 
+    
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -35,12 +37,12 @@ const LogForm = () => {
       })
      
       // 2. Define a submit handler.
-      function onSubmit(values: z.infer<typeof formSchema>) {
+     async function onSubmit(values: z.infer<typeof formSchema>) {
         
         sign(values)
-        .then(res => console.log("registrado"))
+        .then(res => console.log(res))
         .catch(err => console.log("error",err)) 
-        
+ 
       }
 
   return (

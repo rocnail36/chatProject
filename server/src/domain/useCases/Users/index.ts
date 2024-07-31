@@ -1,1 +1,2 @@
 export * from "./get-user.use-case"
+export * from "./change-status.use-case"

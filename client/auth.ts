@@ -49,19 +49,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             bodyUser
           );
         } else {
+
           const bodyUser = {
             email: credentials.email,
             password: credentials.password,
           };
+          
+            user = await pFecth(
+              "/auth/login",
+              "POST",
+              bodyUser
+            );
 
-          user = await pFecth(
-            "/auth/login",
-            "POST",
-            bodyUser
-          );
+
+          
+         
         }
 
-  
+        if(!user) throw new Error("ha habido un error")
+
         // return user object with their profile data
         return user.user;
       },
