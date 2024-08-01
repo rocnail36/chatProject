@@ -18,7 +18,7 @@ async  function main() {
     const socket = new SocketServer(server.httpServer)
 
     MoongoseDb.connect(URI)
-
+    console.log("1")
     socket.start()
     server.start()
 

@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken"
+import jwt, { JwtPayload } from "jsonwebtoken"
 import { envs } from "./Env"
 
 const {SECRET} = envs
@@ -15,20 +15,19 @@ export class JWT {
        }
 
 
-  static verifyJWT <t>(token:string):t|Error|string | jwt.JwtPayload|undefined{
+  static verifyJWT <t>(token:string):t|null{
 
     try {
       const tokenVerified = jwt.verify(token, envs.SECRET)
       if(!tokenVerified){
-        return new Error("token invalido")
+        return null
       }
-      return tokenVerified
+      return tokenVerified as t
     } catch (error) {
       console.log(error)
-      return undefined
+       return null
     }
 
-   
    
 
   }

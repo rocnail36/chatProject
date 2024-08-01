@@ -1,13 +1,39 @@
-import React from "react";
+"use client"
+import React, { useEffect } from "react";
 import { ArrowLeftCircle, Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Header } from "@/components/layout";
 import AvatarMessage from "@/components/pages/message/AvatarMessage";
 import ImputMessage from "@/components/pages/message/ImputMessage";
 
+
+
+
+
+
+
 const page = () => {
+
+  
+
+  useEffect(() => {
+    
+  fetch("http://localhost:8080/api/chat/66a9916e938489c4437d1a9d",{
+    method:"GET",
+      headers:{
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem("token")}`
+     },
+     cache: "no-cache"
+    
+  })
+
+  },[])
+
+
+
   return (
-    <div>
+    <div className="bg-white max-w-2xl m-auto">
       <Header/>
       <Star
         className="fixed top-4 right-4 hover:cursor-pointer z-50"

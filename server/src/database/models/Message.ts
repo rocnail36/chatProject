@@ -21,4 +21,4 @@ const UserSchema = new Schema<Imessage>({
 
 
 
-export const User = model<Imessage>('Message', UserSchema);
+export const Message = model<Imessage>('Message', UserSchema);

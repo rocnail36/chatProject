@@ -17,8 +17,16 @@ type Props = {
 
 const SockectProvider = ({children}:Props) => {
 
+    const get = () => {
+
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem("token")|| undefined
+        }
+     
+    }
+
    const [socket, setSocket] = useState<Socket>()
-   const  [token, setToken] = useState<string|undefined>(localStorage.getItem("token")|| undefined)
+   const  [token, setToken] = useState<string|undefined>(get())
    let  tokenTransport: string | undefined
 
 
