@@ -16,7 +16,7 @@ export class RegisterDto {
 
         const {email,name,password} = object
 
-        console.log(email)
+     
 
         if(!email) return ["debes tener un correo valido"]
         if(!name) return ["debes introducir un nombre"]

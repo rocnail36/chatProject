@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import { AuthRepository } from "../../domain/repositories/AuthRepository";
-import { RegisterUser } from "../../domain/useCases/auth/Register-user.user-case";
+
 import { LoginDto, RegisterDto} from "../../domain/dtos";
-import { LoginUser } from "../../domain/useCases/auth/Login-user.user-case";
+import { RegisterUser } from "../../domain/useCases/auth/Register-user.use-case";
+import { LoginUser } from "../../domain/useCases/auth/Login-user.use-case";
+
 
 
 

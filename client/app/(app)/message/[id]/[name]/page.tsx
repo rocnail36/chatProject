@@ -1,10 +1,14 @@
 "use client"
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowLeftCircle, Star } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Header } from "@/components/layout";
 import AvatarMessage from "@/components/pages/message/AvatarMessage";
 import ImputMessage from "@/components/pages/message/ImputMessage";
+import { pFecth } from "@/lib";
+import { User } from "@/types";
+import { useChat } from "@/hooks/Chat";
+import { useRouter } from "next/navigation";
 
 
 
@@ -12,38 +16,25 @@ import ImputMessage from "@/components/pages/message/ImputMessage";
 
 
 
-const page = () => {
+const page = ({params}:{ params: { id: string , name:string} }) => {
 
   
-
-  useEffect(() => {
-    
-  fetch("http://localhost:8080/api/chat/66a9916e938489c4437d1a9d",{
-    method:"GET",
-      headers:{
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem("token")}`
-     },
-     cache: "no-cache"
-    
-  })
-
-  },[])
-
-
-
+  const { id,name} = params
+  const router = useRouter()
+  const {message,idUserFriend,idChat} = useChat(id)
+  
   return (
-    <div className="bg-white max-w-2xl m-auto">
+    <div className="bg-white max-w-2xl m-auto relative">
       <Header/>
       <Star
-        className="fixed top-4 right-4 hover:cursor-pointer z-50"
+        className="absolute top-4 right-4 hover:cursor-pointer z-50"
         color="white"
         size={40}
         fill="white"
          
       />
-      <ArrowLeftCircle className="fixed top-4 left-4 hover:cursor-pointer z-50" size={40} color="white"  />
-   <AvatarMessage/>
+      <ArrowLeftCircle onClick={(() => router.back())} className="absolute top-4 left-4 hover:cursor-pointer z-50" size={40} color="white"  />
+   <AvatarMessage name={name}/>
    <div className="h-[100vh] w-[100%] pt-[120px] pb-[80px] relative z-0 flex flex-col justify-end px-6 gap-2">
    <div className="self-start bg-gray-400 px-4 py-2 rounded-[20px]">
       <p>Hola como estas ?</p>
@@ -56,7 +47,7 @@ const page = () => {
     </div>
   
    </div>
-   <ImputMessage/>
+   <ImputMessage idChat={idChat.current} idUserFriend={idUserFriend.current}/>
     </div>
   );
 };

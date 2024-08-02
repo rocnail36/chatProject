@@ -11,7 +11,7 @@ export class MoongoseDb {
     static async connect(uri:string){
        try {
         await mongoose.connect(uri,{
-            dbName:"Chat"
+            dbName:"Chat",
         });
         console.log("moongose conected")
        } catch (error) {

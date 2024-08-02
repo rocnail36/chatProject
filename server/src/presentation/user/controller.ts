@@ -13,7 +13,7 @@ export class UserController {
 
     getAllUser(req:Request,res:Response){
 
-        console.log(req.params,"auit")
+      
 
         const [err,dto] = GetAllUsersDto.create((req.params))
 

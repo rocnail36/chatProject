@@ -1,11 +1,12 @@
 import mongoose, {Schema,model} from "mongoose"
+import { Ichat } from "./Chat";
 
 
 export interface IUser {
     name: string;
     email: string;
     password: string;
-    chats: mongoose.Schema.Types.ObjectId[]
+    chats: Ichat[]
     usersFriend: mongoose.Schema.Types.ObjectId[]
     toJSON:() => string
     status: "offline" | "connected"

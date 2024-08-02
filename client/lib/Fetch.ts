@@ -1,7 +1,7 @@
 
 
 
-export async function pFecth (url:string,type:string,object?:Object,cache?:RequestCache):Promise<any>{
+export async function pFecth (url:string,type:string,object?:Object,cache?:RequestCache,token?:string):Promise<any>{
 
 
     try {
@@ -11,11 +11,12 @@ export async function pFecth (url:string,type:string,object?:Object,cache?:Reque
             method:type,
             body: object ? JSON.stringify(object): undefined,
             headers:{
-               'Content-Type': 'application/json'
+               'Content-Type': 'application/json',
+               "Authorization": `Bearer ${token}`
             },
             cache: cache || "default"
            })  
-        
+        console.log(res)
         const data = await res.json()
        
         return data 

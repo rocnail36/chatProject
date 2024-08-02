@@ -1,3 +1,5 @@
 export * from "./RegisterDto"
 export * from "./LoginDto"
 export * from "./getAllUserDto"
+export * from "./getChatDto"
+export * from "./sendMessageDto"

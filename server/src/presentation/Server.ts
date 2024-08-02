@@ -29,7 +29,7 @@ export class Server {
 
     start(){
 
-        console.log("hola")
+      
         this.config()
 
         this.httpServer.listen(this.port,() => {

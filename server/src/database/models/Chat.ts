@@ -1,7 +1,7 @@
 import mongoose, {Schema,model} from "mongoose"
 
 
-interface Ichat {
+export interface Ichat {
     message_id:mongoose.Schema.Types.ObjectId[]
     users:mongoose.Schema.Types.ObjectId[]
   }

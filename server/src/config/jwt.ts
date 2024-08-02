@@ -24,7 +24,7 @@ export class JWT {
       }
       return tokenVerified as t
     } catch (error) {
-      console.log(error)
+    
        return null
     }
 
