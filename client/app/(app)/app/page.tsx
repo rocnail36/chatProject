@@ -8,7 +8,7 @@ import MessageItem from '@/components/pages/app/MessageItem'
 import { Button } from '@/components/ui/button'
 import { signOut } from "next-auth/react"
 
-const page = ({searchParams}:{
+const Page = ({searchParams}:{
   params: { slug: string }
     searchParams: { [key: string]: string | string[] | undefined }
 }) => {
@@ -65,4 +65,4 @@ const page = ({searchParams}:{
   )
 }
 
-export default page
+export default Page

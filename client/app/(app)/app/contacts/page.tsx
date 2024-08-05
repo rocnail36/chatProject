@@ -7,7 +7,7 @@ import { SocketContext } from "@/providers/SocketProvider";
 import { User } from "@/types";
 import React, { useContext, useEffect, useState } from "react";
 
-const page = ({
+const Page = ({
   searchParams,
 }: {
   searchParams: {
@@ -64,4 +64,4 @@ const page = ({
   );
 };
 
-export default page;
+export default Page;

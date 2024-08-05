@@ -2,7 +2,7 @@ import { RegisterForm } from '@/components/forms'
 import Image from 'next/image'
 import React from 'react'
 
-const page = () => {
+const Page = () => {
   return (
     <div className="h-screen m-auto flex flex-col items-center justify-center pb-10 max-w-2xl bg-white relative">
          <Image src={"/image-login.png"} width={283} height={216} alt='image' className='mb-16 ' />
@@ -16,4 +16,4 @@ const page = () => {
   )
 }
 
-export default page
+export default Page

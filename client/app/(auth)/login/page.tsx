@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 
 
-const page = async() => {
+const Page = async() => {
 
 
   
@@ -30,4 +30,4 @@ const page = async() => {
   )
 }
 
-export default page
+export default Page
