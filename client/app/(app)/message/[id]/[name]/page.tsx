@@ -13,7 +13,7 @@ import {  Message as TMessage } from "@/types/Message";
 
 
 
-const page = ({params}:{ params: { id: string , name:string} }) => {
+const Page = ({params}:{ params: { id: string , name:string} }) => {
 
   
   const { id,name} = params
@@ -53,4 +53,4 @@ const page = ({params}:{ params: { id: string , name:string} }) => {
   );
 };
 
-export default page;
+export default Page;
