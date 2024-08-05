@@ -57,7 +57,7 @@ const Page = ({
 
       <div className="mt-4">
         {users?.map((user: User) => (
-          <ContactItem {...user} />
+          <ContactItem key={user.id} {...user} />
         ))}
       </div>
     </div>
