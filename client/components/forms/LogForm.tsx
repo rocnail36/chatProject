@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useRef } from 'react'
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/form" 
 import { Input } from '../ui/input'
 import { sign } from '@/actions'
+import ErrorC from '../layout/Error'
+import { useError } from '@/hooks/useError'
 
 
 
@@ -26,7 +28,7 @@ const formSchema = z.object({
 
 const LogForm = () => {
 
-    
+    const {error,triggerError} = useError()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -41,23 +43,27 @@ const LogForm = () => {
         
         sign(values)
         .then(res => console.log(res))
-        .catch(err => console.log("error",err)) 
+        .catch(err => {
+          triggerError()
+          console.log("error",err)
+        })
  
       }
+    
 
   return (
-    <div className='w-full mb-4'>
+    <div className='w-full mb-4 max-w-[400px] px-4'>
+           {error ? <ErrorC message="contraseña o usuario invalido"/> :""}
           <Form {...form}>
-
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Correo</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" {...field} />
+                <Input placeholder="ejemplo@gmail.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -69,9 +75,9 @@ const LogForm = () => {
           name="password"
           render={({ field }) => (
             <FormItem className='mt-0'>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Contraseña</FormLabel>
               <FormControl>
-                <Input placeholder="shadcn" type="password" {...field} />
+                <Input placeholder="xxxxx" type="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>

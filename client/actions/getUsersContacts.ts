@@ -13,7 +13,7 @@ export async function getUsersContacts(InputSearch?:string)  {
         undefined,
         "no-cache"
       )
-    
+      console.log(res,"asd")
       return res
     } catch (error) {
       console.log(error);

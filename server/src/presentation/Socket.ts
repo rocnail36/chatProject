@@ -3,13 +3,23 @@ import { Server } from "http";
 import { Server as createServer, Socket } from "socket.io";
 import { JWT } from "../config/jwt";
 import { ChangeStatus } from "../domain/useCases/Users";
-import { UserDataSourceImpl } from "../structure/dataSources";
-import { UserRepositoryImpl } from "../structure/repositories";
+import { ChatDataSourceImpl, UserDataSourceImpl } from "../structure/dataSources";
+import { ChatRepositoryImpl, MessageRepositoryImpl, UserRepositoryImpl } from "../structure/repositories";
+import { GetChatDto, GetChatsDto, SendMessageDto } from "../domain/dtos";
+import { MessageDataSource } from "../domain/dataSources/MessageDataSource";
+import { MessageDataSourceImpl } from "../structure/dataSources/MessageDatasourceImpl";
+import { SendMessage } from "../domain/useCases/message/sendMessage.use-case";
+import { GetChats } from "../domain/useCases/chats/getChats.use-case";
 
 export class SocketServer {
   public io: createServer;
-  public userDataSource = new UserDataSourceImpl();
-  public userRepository = new UserRepositoryImpl(this.userDataSource);
+  private userDataSource = new UserDataSourceImpl();
+  private userRepository = new UserRepositoryImpl(this.userDataSource);
+  private messageDataSource = new MessageDataSourceImpl()
+  private messageRepository = new MessageRepositoryImpl(this.messageDataSource)
+  private chatDataSource = new ChatDataSourceImpl()
+  private chatRepository = new ChatRepositoryImpl(this.chatDataSource)
+  
 
   constructor(server: Server) {
     this.io = new createServer(server, {
@@ -42,11 +52,12 @@ export class SocketServer {
       if (error) return;
 
       const userToken = JWT.verifyJWT<{ id: string }>(token!);
-
-      if (!userToken) {
+      
+        if (!userToken) {
         socket.disconnect(true);
+          return
       }
-
+    
       socket.join(userToken!.id);
 
       try {
@@ -64,14 +75,37 @@ export class SocketServer {
           this.io.emit("user-disconnected", user);
         });
 
-        socket.on("sendMessage:client", (data) => {
-          console.log(data);
-          console.log(userToken?.id)
+        socket.on("sendMessage:client", async(data) => {
+
+          try {
+            const {idChat,text,idUserFriend} = data
+            const  [error1, dto1] =  SendMessageDto.create(idChat,userToken!.id,idUserFriend,text)
+            const  [error2,dto2] = GetChatsDto.createDto(idUserFriend)
+             if(error1 || error2) throw new Error(error)
+
+            const sendMessage = new SendMessage(this.messageRepository)
+            const getChats = new GetChats(this.chatRepository)
+            const message = await sendMessage.execute(dto1!)
+            const chat = await getChats.execute(dto2!)
+           
+            
+            
+            this.io.to(idUserFriend).emit("sendMessage:server",message)
+            this.io.to(idUserFriend).emit("sendChat:server",chat)
+            this.io.to(userToken!.id).emit("sendMessage:server",message)
+           
+          } catch (error) {
+            console.log(error) 
+          }
+          
+          
+           
         });
 
         
       } catch (error) {
         console.log(error);
+       
       }
     });
   }

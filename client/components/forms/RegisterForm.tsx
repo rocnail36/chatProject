@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -15,6 +14,8 @@ import {
 } from "@/components/ui/form" 
 import { Input } from '../ui/input'
 import { sign } from '@/actions'
+import ErrorC from '../layout/Error'
+import { useError } from '@/hooks/useError'
 
 
 const formSchema = z.object({
@@ -36,6 +37,7 @@ const formSchema = z.object({
 
 const RegisterForm = () => {
 
+     const {error,triggerError} = useError()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -53,15 +55,19 @@ const RegisterForm = () => {
       values
         sign(values)
         .then(res => console.log(res))
-        .catch(err => console.log(err))
+        .catch(err => {
+          console.log(err)
+          triggerError()
+        })
         
       }
 
   return (
-    <div className='w-full mb-4'>
+    <div className='w-full mb-4 max-w-[400px]'>
+      {error ? <ErrorC message='Ups ha ocurrido un error'/> : undefined}
            <Form {...form}>
 
-<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 px-4">
   <FormField
     control={form.control}
     name="name"

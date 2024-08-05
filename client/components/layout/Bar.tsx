@@ -19,11 +19,9 @@ const Bar = () => {
         ):
             (
                 <>
-                 <Bed className='hover:cursor-pointer hover:scale-105 transition-all duration-100'/>
                  <Link href={'/app/contacts'}>
                 <Contact  className='hover:cursor-pointer hover:scale-105 transition-all duration-100'/>
                 </Link>
-                <Sun className='hover:cursor-pointer hover:scale-105 transition-all duration-100'/>
                 </>
             )}
            

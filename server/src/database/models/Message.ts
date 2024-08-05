@@ -1,9 +1,10 @@
 import mongoose, {Schema,model} from "mongoose"
 
 
-interface Imessage {
+export interface Imessage {
     text: string
     user_id:mongoose.Schema.Types.ObjectId 
+    modified: Date
   }
 
 
@@ -15,8 +16,11 @@ const UserSchema = new Schema<Imessage>({
 
     user_id: {
         type: mongoose.Schema.Types.ObjectId, ref: "User"
-    }
+    },
 
+    modified: {
+      type: Date,
+    }
   });
 
 

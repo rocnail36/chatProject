@@ -31,7 +31,7 @@ const page = ({
   
   useEffect(() => {
      socket?.on("user-connected",(data) => {
-      setusers(old => old.map(user => user.id == data.id ? data : user))
+      setusers(old => old?.map(user => user.id == data.id ? data : user))
      })
      return () => {
       socket?.off("user-connected")
@@ -41,7 +41,7 @@ const page = ({
   useEffect(() => {
     socket?.on("user-disconnected",(data) => {
       console.log("aqui pancho")
-      setusers(old => old.map(user => user.id == data.id ? data : user))
+      setusers(old => old?.map(user => user.id == data.id ? data : user))
      })
      return () => {
       socket?.off("user-disconnected")
@@ -52,7 +52,7 @@ const page = ({
 
 
   return (
-    <div className="m-auto">
+    <div className="m-auto h-[100vh] pt-[140px]">
       <Search input={InputSearch} />
 
       <div className="mt-4">

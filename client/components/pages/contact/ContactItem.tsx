@@ -34,7 +34,7 @@ const ContactItem = ({name,id, status}:props) => {
    </Avatar>
    <p>{name}</p>
     </div>
-   <div className={`h-[20px] w-[20px] rounded-[50%]  ${clsx({"bg-green-400": status == "connected", "bg-red-400": status == "offline"})}  bg-green-400`} />
+   <div className={`h-[20px] w-[20px] rounded-[50%]  ${clsx({"bg-green-400": status == "connected", "bg-red-400": status == "offline"})}`} />
        </div>
        </Link>
   )

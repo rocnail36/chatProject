@@ -8,15 +8,13 @@ import { JWT } from "../../../config/jwt";
 
 type SignToken = (payload:Object,time:string) => string 
 
-
 type UserToken = {
-    token: string,
     user: {
         id:string,
-        name: string
+        name: string,
+        token: string
     }
 }
-
 
 export class RegisterUser {
 
@@ -32,10 +30,13 @@ export class RegisterUser {
  
      const token = this.signToken({...user},"5h")
       
-        return {
-            token,
-            user
+      
+     return {
+        user:{
+         ...user,
+         token
         }
+     }
 
     }
 

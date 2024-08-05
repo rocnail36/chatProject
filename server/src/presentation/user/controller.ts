@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { UserRepository } from "../../domain/repositories";
-import { getAllUsers } from "../../domain/useCases/Users";
+import { getAllUsers, GetUserData } from "../../domain/useCases/Users";
 import { GetAllUsersDto } from "../../domain/dtos";
 
 
@@ -23,6 +23,18 @@ export class UserController {
         .execute(dto!,req.params.query)
         .then(response => res.json(response))
         .catch(err => res.status(400).json(err))
+
+    }
+
+    getUserData(req:Request,res:Response){
+
+        const {id} = req.body.user
+        const {query} = req.params
+           
+        new GetUserData(this.repository)
+        .execute(id,query)
+        .then(result => res.json(result))
+        .catch(err => res.status(400).json(err.message))
 
     }
 

@@ -1,17 +1,14 @@
 "use client"
-import React, { useEffect, useState } from "react";
-import { ArrowLeftCircle, Star } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
+import React, {  useContext, useEffect, useLayoutEffect, useRef,   } from "react";
+import { ArrowLeftCircle} from "lucide-react";
 import { Header } from "@/components/layout";
 import AvatarMessage from "@/components/pages/message/AvatarMessage";
 import ImputMessage from "@/components/pages/message/ImputMessage";
-import { pFecth } from "@/lib";
-import { User } from "@/types";
-import { useChat } from "@/hooks/Chat";
+import { useChat } from "@/hooks/useChat";
 import { useRouter } from "next/navigation";
-
-
-
+import { SocketContext } from "@/providers/SocketProvider";
+import Message from "@/components/pages/message/Message";
+import {  Message as TMessage } from "@/types/Message";
 
 
 
@@ -21,33 +18,37 @@ const page = ({params}:{ params: { id: string , name:string} }) => {
   
   const { id,name} = params
   const router = useRouter()
-  const {message,idUserFriend,idChat} = useChat(id)
+  const {message,idChat,setmessage} = useChat(id)
+  const {socket} = useContext(SocketContext)
+  const container = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    socket?.on("sendMessage:server",(data) => {
+    setmessage(data)
+    })
+  return () => {
+  }
+},[socket])
+
+  useLayoutEffect(() => {
+      container.current?.scrollIntoView()
+  },[message])
   
   return (
     <div className="bg-white max-w-2xl m-auto relative">
       <Header/>
-      <Star
-        className="absolute top-4 right-4 hover:cursor-pointer z-50"
-        color="white"
-        size={40}
-        fill="white"
-         
-      />
-      <ArrowLeftCircle onClick={(() => router.back())} className="absolute top-4 left-4 hover:cursor-pointer z-50" size={40} color="white"  />
+     
+   <ArrowLeftCircle onClick={(() => router.back())} className="absolute top-4 left-4 hover:cursor-pointer z-50" size={40} color="white"  />
    <AvatarMessage name={name}/>
-   <div className="h-[100vh] w-[100%] pt-[120px] pb-[80px] relative z-0 flex flex-col justify-end px-6 gap-2">
-   <div className="self-start bg-gray-400 px-4 py-2 rounded-[20px]">
-      <p>Hola como estas ?</p>
-    </div>
-   <div className="self-start bg-gray-400 px-4 py-2 rounded-[20px]">
-      <p>saludos a Linkedin!</p>
-    </div>
-    <div className="self-end bg-blue-300 px-4 py-2 rounded-[20px]">
-      <p>Saludos a Linkedin !</p>
-    </div>
-  
+   <div className="h-[100vh] overflow-y-scroll min-h-[0px] pb-[80px] scrollbar-hide grid  items-end">
+   <div className="w-[100%] mt-[125px]  relative z-0 px-6 gap-[1px] flex flex-col ">
+      {message?.map((message : TMessage) => (
+        <Message key={message._id} text={message.text} userfriendId={id} user_id={message.user_id}/>
+      ))}
+      <div className="h-[1px]" ref={container}></div>
    </div>
-   <ImputMessage idChat={idChat.current} idUserFriend={idUserFriend.current}/>
+   </div>
+   <ImputMessage idChat={idChat.current} idUserFriend={id} setMessage={setmessage}/>
     </div>
   );
 };

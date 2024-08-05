@@ -5,9 +5,9 @@ import { MessageRepository } from "../../domain/repositories";
 
 
 
-class MessageRepositoryImpl implements MessageRepository {
+export class MessageRepositoryImpl implements MessageRepository {
 
-    constructor(private datasource:MessageDataSource){}
+   constructor(private datasource:MessageDataSource){}
 
    async sendMessage(dto: SendMessageDto): Promise<MessageEntity[]> {
             return await this.datasource.sendMessage(dto)

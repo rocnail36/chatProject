@@ -18,6 +18,10 @@ export class UserRepositoryImpl implements UserRepository {
             return await this.userDataSource.changeState(id,status)
     }
 
+   async getUserData(id: string,query?:string): Promise<UserEntity> {
+        return await this.userDataSource.getUserData(id,query)
+    }
+
 
 
 }

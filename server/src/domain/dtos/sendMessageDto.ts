@@ -5,7 +5,7 @@ export class SendMessageDto {
  private  constructor(public chatId:string,public fromUserId:string, public toUserId:string,public text:string){}
 
 
-   static create(chatId:string,fromUserId:string, toUserId:string,text:string){
+   static create(chatId:string,fromUserId:string, toUserId:string,text:string):[string?,SendMessageDto?]{
 
     if(!chatId) return ["id chat invalido"]
     if(!toUserId) return ["toUserId invalido"]

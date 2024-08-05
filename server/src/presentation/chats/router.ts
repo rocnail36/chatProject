@@ -17,7 +17,7 @@ export class ChatRoutes {
     const repository = new ChatRepositoryImpl(dataSource)
     const controller = new ChatController(repository)
 
-    router.get("/:id",AuthMiddleware.validateJWT,controller.getChat.bind(controller));
+    router.get("/:id", AuthMiddleware.validateJWT,controller.getChat.bind(controller));
 
     return router;
   }

@@ -1,9 +1,12 @@
 import mongoose, {Schema,model} from "mongoose"
+import { Imessage } from "./Message";
+import { IUser } from "./User";
 
 
 export interface Ichat {
-    message_id:mongoose.Schema.Types.ObjectId[]
-    users:mongoose.Schema.Types.ObjectId[]
+    message_id: Imessage[]
+    users: IUser[]
+    modified: Date
   }
 
 
@@ -15,8 +18,12 @@ const UserSchema = new Schema<Ichat>({
 
     users:{
           type:[{type:mongoose.Schema.Types.ObjectId,ref:"User"}]
+    },
+
+    modified: {
+      type: Date
     }
-    
+
   });
 
 

@@ -29,7 +29,7 @@ const Search = ({input}:{input:string}) => {
   console.log(input)
    
   return (
-    <form className='flex justify-center items-center w-[60%] max-w-[600px] fixed top-12 right-[50%] translate-x-[50%] z-50'>
+    <form className='flex justify-center items-center w-[60%] max-w-[300px] fixed top-12 right-[50%] translate-x-[50%] z-50'>
            <SearchIcon className='z-[51]'/> 
            <Input 
            onChange={onChange} 

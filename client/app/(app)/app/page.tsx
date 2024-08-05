@@ -1,10 +1,12 @@
 "use client"
 import { Search } from '@/components/forms'
-import { ListImportants, ListMessage} from '../../../components/pages/app/index'
-import React, { useContext, useEffect } from 'react'
-import SockectProvider, { SocketContext } from '@/providers/SocketProvider'
-import { auth } from '@/auth'
+import React, { useContext, useEffect, useState } from 'react'
+import  { SocketContext } from '@/providers/SocketProvider'
 import { getSessionToken } from '@/actions'
+import { pFecth } from '@/lib'
+import MessageItem from '@/components/pages/app/MessageItem'
+import { Button } from '@/components/ui/button'
+import { signOut } from "next-auth/react"
 
 const page = ({searchParams}:{
   params: { slug: string }
@@ -12,9 +14,7 @@ const page = ({searchParams}:{
 }) => {
   
 
- 
-  const {setToken,token} = useContext(SocketContext)
-  
+ const {setToken,socket} = useContext(SocketContext)
   
   const getTokenFromSession = async() => {
     const token = await getSessionToken()
@@ -22,17 +22,45 @@ const page = ({searchParams}:{
     setToken(token)
     localStorage.setItem("token",token)
   }
+
+  const {input} = searchParams
   
+ 
+
+  const [chats,setChats] = useState<any[]>()
+
   useEffect(() => {
     getTokenFromSession()
   },[])
 
+  useEffect(() => {
+    pFecth(`/user/chats${input ? `/${input}`: ""}`,"GET",undefined,"no-cache")
+    .then(result => setChats(result.chats))
+  },[input,socket])
+
+  useEffect(() => {
+    socket?.on("sendChat:server",(data) => {
+      console.log(data)
+      setChats(data)
+    })
+  },[socket])
+
+
   return (
-    <div className='m-auto px-4'>
+    <div className='m-auto px-4 pt-[140px] pb-[80px] relative h-[100vh]'>
          <Search input='' />
-        <h4 className='mb-2 text-gray-800 text-sm'>IMPORTANTES</h4>
-        <ListImportants/>
-        <ListMessage/>
+        
+        <h4 className='mb-2 text-gray-800 text-sm'>CHATS</h4>
+       
+        <div className="flex flex-col gap-8">
+        {chats?.map(chat => (
+          <MessageItem message={chat?.message_id[0]} key={chat.users[0]?._id} user={chat.users[0]}   />
+        ))}
+        </div>
+        <Button onClick={() => {
+          localStorage.removeItem("token")
+          signOut()
+        }} className='absolute top-4 right-[5px] z-50 bg-white rounded-[20px] text-[14px] hover:scale-105 transition-all'>salir</Button>
     </div>
   )
 }

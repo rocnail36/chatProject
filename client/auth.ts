@@ -1,7 +1,7 @@
 import NextAuth, { DefaultSession } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { pFecth } from "./lib";
-
+import type { Provider } from "next-auth/providers"
 // Your own logic for dealing with plaintext password strings; be careful!
 
 declare module "next-auth" {
@@ -22,58 +22,76 @@ declare module "next-auth" {
   }
 }
 
-export const { handlers, signIn, signOut, auth } = NextAuth({
-  providers: [
-    Credentials({
-      // You can specify which fields should be submitted, by adding keys to the `credentials` object.
-      // e.g. domain, username, password, 2FA token, etc.
-      credentials: {
-        name: {},
-        email: {},
-        password: {},
-        token: {},
-      },
-      authorize: async (credentials) => {
-        let user = null;
 
-        if (credentials.name) {
-          const bodyUser = {
-            email: credentials.email,
-            password: credentials.password,
-            name: credentials.name,
-          };
+const providers: Provider[] = [
+  Credentials({
+    // You can specify which fields should be submitted, by adding keys to the `credentials` object.
+    // e.g. domain, username, password, 2FA token, etc.
+    credentials: {
+      name: {},
+      email: {},
+      password: {},
+      token: {},
+    },
+    authorize: async (credentials) => {
+      let user = null;
 
+      if (credentials.name) {
+        const bodyUser = {
+          email: credentials.email,
+          password: credentials.password,
+          name: credentials.name,
+        };
+
+        user = await pFecth(
+          "/auth/register",
+          "POST",
+          bodyUser
+        );
+      } else {
+
+        const bodyUser = {
+          email: credentials.email,
+          password: credentials.password,
+        };
+        
           user = await pFecth(
-            "/auth/register",
+            "/auth/login",
             "POST",
             bodyUser
           );
-        } else {
-
-          const bodyUser = {
-            email: credentials.email,
-            password: credentials.password,
-          };
-          
-            user = await pFecth(
-              "/auth/login",
-              "POST",
-              bodyUser
-            );
 
 
-          
-         
-        }
+        
+       
+      }
 
-        if(!user) throw new Error("ha habido un error")
+      if(!user) throw new Error("ha habido un error")
 
-        // return user object with their profile data
-        return user.user;
-      },
-    }),
-  ],
+      // return user object with their profile data
+      return user.user;
+    },
+  })
+]
+
+
+export const providerMap = providers.map((provider) => {
+  if (typeof provider === "function") {
+    const providerData = provider()
+    return { id: providerData.id, name: providerData.name }
+  } else {
+    return { id: provider.id, name: provider.name }
+  }
+})
+
+export const { handlers, signIn, signOut, auth } = NextAuth({
+  pages: {
+    signIn: "/login",
+     newUser: "/auth/register"
+  },
+  providers,
   callbacks: {
+   
     jwt({ token, user }) {
       if (user) {
         // User is available during sign-in

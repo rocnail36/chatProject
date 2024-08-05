@@ -6,9 +6,9 @@ const {SECRET} = envs
 
 export class JWT {
 
-  static  signToken (payload: Object,time:string) {
+  static  signToken (payload: Object) {
         const token =  jwt.sign(payload,SECRET,{
-               expiresIn: time
+               expiresIn:"1080d"
            })
        
            return token
@@ -24,7 +24,7 @@ export class JWT {
       }
       return tokenVerified as t
     } catch (error) {
-    
+      console.log(error,"1")
        return null
     }
 

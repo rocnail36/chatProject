@@ -3,8 +3,11 @@ import { IUser, User } from "../../database/models/User";
 import { UserDataSource } from "../../domain/dataSources";
 import { GetAllUsersDto } from "../../domain/dtos";
 import { UserEntity } from "../../domain/entities";
+import { Chat } from "../../database/models/Chat";
+
 
 export class UserDataSourceImpl extends UserDataSource {
+
   async getAllUsers(
     getAllUserDto: GetAllUsersDto,
     query?: string
@@ -44,5 +47,27 @@ export class UserDataSourceImpl extends UserDataSource {
     } catch (error) {
       throw new Error(error as string);
     }
+  }
+
+  async getUserData(id: string,query?:string): Promise<UserEntity> {
+
+    try {
+
+      console.log("llego",query)
+
+      const querymatch: {_id:object,name?:object} = {_id:{$ne:id}}
+      if(query){
+        querymatch.name = {$regex:query,$options:"i"}
+      }
+
+      const user = await User.findById(id).populate({path:"chats" ,options:{sort: {modified:-1}},populate: [{path:"users",select:["name","status"],match:querymatch},{path:"message_id",options:{sort:{modified:-1},perDocumentLimit:1}}]})
+     
+      return UserEntity.mapper(user!)
+    } catch (error) {
+      
+      throw error
+
+    }
+
   }
 }
