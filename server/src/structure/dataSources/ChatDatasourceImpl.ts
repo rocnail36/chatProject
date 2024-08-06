@@ -17,7 +17,7 @@ export class ChatDataSourceImpl implements ChatDataSource {
       .populate({ path: "chats", match: { users: second_id }, populate: [{path:"users",select:["name","usersFriend"]},{path:"message_id"}] })
       .exec();
      
-  console.log(user?.chats[0])
+
     try {
       if ((!user?.chats[0])) {
         const chat = await Chat.create({

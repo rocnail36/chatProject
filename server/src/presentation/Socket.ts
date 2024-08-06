@@ -50,7 +50,7 @@ export class SocketServer {
   public async start() {
     this.io.on("connection", async (socket) => {
       let user;
-      console.log("socket connected");
+ 
       // handshake y jwt
 
       const [error, token] = this.verifyHandShake(socket);
@@ -101,7 +101,7 @@ export class SocketServer {
             this.io.to(userToken!.id).emit("sendMessage:server",message)
            
           } catch (error) {
-            console.log(error) 
+          
           }
           
           

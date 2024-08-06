@@ -53,7 +53,6 @@ export class UserDataSourceImpl extends UserDataSource {
 
     try {
 
-      console.log("llego",query)
 
       const querymatch: {_id:object,name?:object} = {_id:{$ne:id}}
       if(query){
