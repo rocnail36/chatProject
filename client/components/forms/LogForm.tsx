@@ -42,7 +42,6 @@ const LogForm = () => {
      async function onSubmit(values: z.infer<typeof formSchema>) {
         
         sign(values)
-        .then(res => console.log(res))
         .catch(err => {
           triggerError()
           console.log("error",err)

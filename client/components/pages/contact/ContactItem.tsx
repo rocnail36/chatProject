@@ -18,7 +18,7 @@ const ContactItem = ({name,id, status}:props) => {
   
   const pathName = usePathname()
   
-  console.log(pathName)
+
 
   return (
     <Link href={`/message/${id}/${name}`}>

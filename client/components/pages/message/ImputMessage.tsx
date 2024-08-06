@@ -43,7 +43,7 @@ const ImputMessage = ({idChat,idUserFriend,setMessage}:Props) => {
  }
 
  const session = useSession()
-  console.log(session)
+  
 
   return (
     <div className='fixed bottom-0 w-full max-w-2xl h-[70px] bg-blue-600 flex justify-center items-center'>

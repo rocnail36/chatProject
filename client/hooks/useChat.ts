@@ -15,7 +15,7 @@ export const useChat = (id:string) => {
     const getChat = async() => {
 
     const data = await pFecth(`/chat/${id}`,"GET",undefined,"no-cache")
-    console.log(data,"fetch123")  
+  
     setmessage(data.message_id)
 
       idChat.current = data.id

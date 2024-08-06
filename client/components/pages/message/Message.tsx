@@ -8,7 +8,7 @@ type Props = {
 }
 
 const Message = ({text,userfriendId,user_id}:Props) => {
-    console.log(userfriendId,user_id)
+   
   return (
     <div className={`  px-4 py-[1px] text-base rounded-[20px] ${clsx({
         "self-start bg-gray-300": userfriendId == user_id,

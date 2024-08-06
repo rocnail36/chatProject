@@ -26,7 +26,7 @@ const Search = ({input}:{input:string}) => {
     replace(`${pathname}?${params.toString()}`);
   }
 
-  console.log(input)
+
    
   return (
     <form className='flex justify-center items-center w-[60%] max-w-[300px] fixed top-12 right-[50%] translate-x-[50%] z-50'>

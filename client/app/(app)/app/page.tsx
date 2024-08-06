@@ -40,7 +40,7 @@ const Page = ({searchParams}:{
 
   useEffect(() => {
     socket?.on("sendChat:server",(data) => {
-      console.log(data)
+      
       setChats(data)
     })
   },[socket])

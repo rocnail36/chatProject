@@ -23,7 +23,7 @@ const Page = ({
   useEffect(() => {
     getUsersContacts(InputSearch)
       .then((res) => {
-        console.log(res)
+       
         setusers(res)
       })
       .catch((err) => console.log(err));
@@ -40,7 +40,7 @@ const Page = ({
 
   useEffect(() => {
     socket?.on("user-disconnected",(data) => {
-      console.log("aqui pancho")
+   
       setusers(old => old?.map(user => user.id == data.id ? data : user))
      })
      return () => {

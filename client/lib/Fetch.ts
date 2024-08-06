@@ -16,7 +16,7 @@ export async function pFecth (url:string,type:string,object?:Object,cache?:Reque
             },
             cache: cache || "default"
            })  
-        console.log(res)
+     
         const data = await res.json()
        
         return data 
