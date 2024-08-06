@@ -15,7 +15,9 @@ const Bar = () => {
            
            { path == "/app/contacts" ? 
            ( 
-               <ArrowLeft onClick={() => router.back() } className='hover:cursor-pointer hover:scale-105 transition-all duration-100'/> 
+               <ArrowLeft onClick={() => {
+                 router.push("/")
+             }} className='hover:cursor-pointer hover:scale-105 transition-all duration-100'/> 
         ):
             (
                 <>
