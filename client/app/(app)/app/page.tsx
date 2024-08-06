@@ -50,7 +50,7 @@ const Page = ({searchParams}:{
     return () => {
       socket?.off("sendChat:server",handleData)
     }
-    
+
   },[socket])
 
 
@@ -60,7 +60,7 @@ const Page = ({searchParams}:{
         
         <h4 className='mb-2 text-gray-800 text-sm'>CHATS</h4>
        
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-8 overflow-y-scroll h-[100%]">
         {chats?.map(chat => (
           <MessageItem message={chat?.message_id[0]} key={chat.users[0]?._id} user={chat.users[0]}   />
         ))}
