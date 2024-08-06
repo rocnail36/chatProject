@@ -10,6 +10,10 @@ import { MessageDataSource } from "../domain/dataSources/MessageDataSource";
 import { MessageDataSourceImpl } from "../structure/dataSources/MessageDatasourceImpl";
 import { SendMessage } from "../domain/useCases/message/sendMessage.use-case";
 import { GetChats } from "../domain/useCases/chats/getChats.use-case";
+import { envs } from "../config/Env";
+
+
+const {CLIENT} = envs
 
 export class SocketServer {
   public io: createServer;
@@ -24,7 +28,7 @@ export class SocketServer {
   constructor(server: Server) {
     this.io = new createServer(server, {
       cors: {
-        origin: "http://localhost:3000",
+        origin: CLIENT,
       },
     });
   }

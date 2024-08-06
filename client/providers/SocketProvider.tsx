@@ -33,7 +33,7 @@ const SockectProvider = ({children}:Props) => {
 
    useEffect(() => {
     if(token){
-        setSocket(io("http://localhost:8080",{
+        setSocket(io(process.env.NEXT_PUBLIC_API!,{
             extraHeaders: {
                 authorization: `bearer ${token}` 
             }
