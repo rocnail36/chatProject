@@ -16,6 +16,7 @@ import { envs } from "../config/Env";
 const {CLIENT} = envs
 
 export class SocketServer {
+  static instance: SocketServer
   public io: createServer;
   private userDataSource = new UserDataSourceImpl();
   private userRepository = new UserRepositoryImpl(this.userDataSource);
@@ -25,7 +26,7 @@ export class SocketServer {
   private chatRepository = new ChatRepositoryImpl(this.chatDataSource)
 
 
-  constructor(server: Server) {
+ private constructor(server: Server) {
     
  
     this.io = new createServer(server, {
@@ -33,6 +34,18 @@ export class SocketServer {
         origin: CLIENT,
       },
     });
+  }
+
+ static initWsInstance(server:Server){
+      this.instance = new SocketServer(server)
+      return this.instance
+  }
+
+  static getInstance(){
+    if(!this.getInstance){
+      throw Error( "error ws no inicializado")
+    }
+    return this.instance
   }
 
   public verifyHandShake(socket: Socket): [string?, string?] {
@@ -101,7 +114,7 @@ export class SocketServer {
             this.io.to(userToken!.id).emit("sendMessage:server",message)
            
           } catch (error) {
-          
+              console.log(error)
           }
           
           
@@ -115,4 +128,6 @@ export class SocketServer {
       }
     });
   }
+
+  
 }

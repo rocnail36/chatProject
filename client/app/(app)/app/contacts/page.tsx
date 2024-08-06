@@ -30,36 +30,62 @@ const Page = ({
   }, [InputSearch]);
   
   useEffect(() => {
-     socket?.on("user-connected",(data) => {
+
+    const handleData  = (data:any) => {
       setusers(old => old?.map(user => user.id == data.id ? data : user))
-     })
+     }
+
+     socket?.on("user-connected",handleData)
      return () => {
-      socket?.off("user-connected")
+      socket?.off("user-connected",handleData)
      } 
   },[socket])
 
   useEffect(() => {
-    socket?.on("user-disconnected",(data) => {
+
+    const handleData = (data:any) => {
    
       setusers(old => old?.map(user => user.id == data.id ? data : user))
-     })
+     }
+
+    socket?.on("user-disconnected", handleData)
+
      return () => {
-      socket?.off("user-disconnected")
+      socket?.off("user-disconnected",handleData)
      } 
+
+  },[socket])
+
+  
+  useEffect(() => {
+
+    const handleData  = (data:any) => {
+      setusers(old => [data,...old])
+     }
+
+    socket?.on("newUserConnected:server",handleData)
+
+    return () => {
+      socket?.off("newUserConnected:server",handleData)
+    }
+
 
   },[socket])
 
 
 
   return (
-    <div className="m-auto h-[100vh] pt-[140px]">
+    <div className="m-auto h-[100vh] pt-[100px] bg-white overflow-y-hidden">
       <Search input={InputSearch} />
 
-      <div className="mt-4">
+    
+      <div className="h-[95%] pt-[20px] overflow-y-scroll scrollbar-hide">
         {users?.map((user: User) => (
           <ContactItem key={user.id} {...user} />
         ))}
       </div>
+
+     
     </div>
   );
 };

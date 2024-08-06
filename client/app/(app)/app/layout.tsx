@@ -15,7 +15,7 @@ type props = {
 const layout = ({children}:props) => {
   
   return (
-    <div className='min-h-screen w-screen  max-w-2xl m-auto bg-white'>
+    <div className='min-h-screen w-screen  max-w-2xl m-auto '>
         <Header/>
         {children}
         <Bar/>

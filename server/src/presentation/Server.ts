@@ -18,11 +18,14 @@ export class Server {
     
     }
 
+    setRoutes(){
+        this.app.use("/api", this.route)
+    }
+
 
     config(){
         this.app.use(cors())
         this.app.use(express.json())
-        this.app.use("/api", this.route)
         
     }
 

@@ -30,6 +30,7 @@ const Page = ({searchParams}:{
   const [chats,setChats] = useState<any[]>()
 
   useEffect(() => {
+    if(socket) return
     getTokenFromSession()
   },[])
 
@@ -39,15 +40,22 @@ const Page = ({searchParams}:{
   },[input,socket])
 
   useEffect(() => {
-    socket?.on("sendChat:server",(data) => {
-      
+
+    const handleData = (data:any) => {
       setChats(data)
-    })
+    }
+
+    socket?.on("sendChat:server",handleData)
+
+    return () => {
+      socket?.off("sendChat:server",handleData)
+    }
+    
   },[socket])
 
 
   return (
-    <div className='m-auto px-4 pt-[140px] pb-[80px] relative h-[100vh]'>
+    <div className='m-auto px-4 pt-[140px] pb-[80px] relative h-[100vh] bg-white'>
          <Search input='' />
         
         <h4 className='mb-2 text-gray-800 text-sm'>CHATS</h4>

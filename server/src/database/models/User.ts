@@ -31,7 +31,7 @@ const UserSchema = new Schema<IUser>({
     },
     status: {
       type: String,
-      default:"offline",
+      default:"connected",
       enum: ["offline","connected"]
     },
     chats: {
