@@ -60,9 +60,6 @@ const providers: Provider[] = [
             "POST",
             bodyUser
           );
-
-
-        
        
       }
 
@@ -75,14 +72,6 @@ const providers: Provider[] = [
 ]
 
 
-export const providerMap = providers.map((provider) => {
-  if (typeof provider === "function") {
-    const providerData = provider()
-    return { id: providerData.id, name: providerData.name }
-  } else {
-    return { id: provider.id, name: provider.name }
-  }
-})
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   pages: {
@@ -91,7 +80,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
   providers,
   callbacks: {
-   
+
+    authorized:async ({ auth }) => {
+      // Logged in users are authenticated, otherwise redirect to login page
+      return !!auth
+    },
     jwt({ token, user }) {
       if (user) {
         // User is available during sign-in
