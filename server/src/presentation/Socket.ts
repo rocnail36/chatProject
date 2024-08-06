@@ -23,9 +23,11 @@ export class SocketServer {
   private messageRepository = new MessageRepositoryImpl(this.messageDataSource)
   private chatDataSource = new ChatDataSourceImpl()
   private chatRepository = new ChatRepositoryImpl(this.chatDataSource)
-  
+
 
   constructor(server: Server) {
+    
+ 
     this.io = new createServer(server, {
       cors: {
         origin: CLIENT,

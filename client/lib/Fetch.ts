@@ -7,7 +7,7 @@ export async function pFecth (url:string,type:string,object?:Object,cache?:Reque
     try {
       
 
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API || process.env.API}${url}/api`,{
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API || process.env.API}/api${url}`,{
             method:type,
             body: object ? JSON.stringify(object): undefined,
             headers:{
