@@ -28,10 +28,6 @@ const Page = ({searchParams}:{
 
 
 
-
-
-    console.log(chats)
-
   return (
     <div className='m-auto px-4 pt-[140px] pb-[80px] relative h-[100vh] bg-white'>
          <Search input='' />

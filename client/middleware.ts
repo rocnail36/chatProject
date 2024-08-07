@@ -17,7 +17,7 @@ export default auth((req) => {
 
   if (!req.auth && (req.nextUrl.pathname !== "/login" && req.nextUrl.pathname !== "/register"  ) ) {
     const newUrl = new URL("/login" , req.nextUrl.origin)
-    console.log(newUrl.pathname)
+   
     return Response.redirect(newUrl)
   }
 

@@ -27,7 +27,7 @@ const Page = ({params}:{ params: { id: string , name:string} }) => {
       container.current?.scrollIntoView()
   },[message])
 
-  console.log(message)
+
  
   return (
     <div className="bg-white max-w-2xl m-auto relative">

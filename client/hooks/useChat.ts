@@ -33,7 +33,7 @@ export const useChat = (id:string,socket:Socket|undefined) => {
 
   useEffect(() => {
     socket?.on("sendMessage:server",(data) => {
-      console.log("asddfqwe")
+      
     setmessage(data)
     })
   return () => {

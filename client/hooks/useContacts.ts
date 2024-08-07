@@ -15,7 +15,7 @@ export const useContact = (InputSearch: string, socket?: Socket) => {
 
   useEffect(() => {
     const handleData = (data: any) => {
-      console.log("se conecto un usario");
+
       setContacts((old) =>
         old?.map((user) => (user._id == data._id ? data : user))
       );
