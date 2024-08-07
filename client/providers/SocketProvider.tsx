@@ -23,11 +23,11 @@ const SockectProvider = ({children}:Props) => {
 
    const [socket, setSocket] = useState<Socket>()
   
-    const {token} = useContext(TokenContex)
+    const {isToken} = useContext(TokenContex)
    
    useEffect(() => {
-   console.log("1",token)
-    if(token){
+   
+    if(isToken){
         console.log("ae")
         setSocket(io(process.env.NEXT_PUBLIC_API!,{
             extraHeaders: {
@@ -37,7 +37,7 @@ const SockectProvider = ({children}:Props) => {
     }
 
 
-   },[token])
+   },[isToken])
     
 
     return(
