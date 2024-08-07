@@ -67,7 +67,8 @@ export class SocketServer {
       // handshake y jwt
 
       const [error, token] = this.verifyHandShake(socket);
-
+      console.log(error)
+      console.log("socket connected")
       if (error) return;
 
       const userToken = JWT.verifyJWT<{ id: string }>(token!);

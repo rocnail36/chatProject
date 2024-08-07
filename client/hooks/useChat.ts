@@ -12,6 +12,7 @@ export const useChat = (id:string) => {
     const [message, setmessage] = useState<Message[]>([])
 
     const idChat = useRef<string>()
+    
     const getChat = async() => {
 
     const data = await pFecth(`/chat/${id}`,"GET",undefined,"no-cache")

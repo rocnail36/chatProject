@@ -1,9 +1,14 @@
+import { getSessionToken } from '@/actions'
 import { RegisterForm } from '@/components/forms'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
 const Page = () => {
+
+
+  
+
   return (
     <div className="h-screen m-auto flex flex-col items-center justify-center pb-10 max-w-2xl bg-white relative">
          <Image src={"/imageLogin.webp"} width={283} height={216} alt='image' className='mb-16 ' />
