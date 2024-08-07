@@ -1,6 +1,4 @@
 "use client"
-import { getSessionToken } from "@/actions";
-import { useSession } from "next-auth/react";
 import React,{ createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
 import { io, Socket } from "socket.io-client";
 import { TokenContex } from "./TokenProvider";
@@ -28,7 +26,7 @@ const SockectProvider = ({children}:Props) => {
    useEffect(() => {
    
     if(isToken){
-        console.log("ae")
+   
         setSocket(io(process.env.NEXT_PUBLIC_API!,{
             extraHeaders: {
                 authorization: `bearer ${localStorage.getItem("token")}` 

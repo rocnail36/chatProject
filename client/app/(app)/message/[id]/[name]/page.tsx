@@ -18,24 +18,15 @@ const Page = ({params}:{ params: { id: string , name:string} }) => {
   
   const { id,name} = params
   const router = useRouter()
-  const {message,idChat,setmessage} = useChat(id)
   const {socket} = useContext(SocketContext)
-  const container = useRef<HTMLDivElement>(null)
+  const {message,idChat,setmessage} = useChat(id,socket)
 
-  useEffect(() => {
-    socket?.on("sendMessage:server",(data) => {
-    setmessage(data)
-    })
-  return () => {
-  }
-},[socket])
+  const container = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
       container.current?.scrollIntoView()
   },[message])
-
-
-  
+ 
   return (
     <div className="bg-white max-w-2xl m-auto relative">
       <Header/>

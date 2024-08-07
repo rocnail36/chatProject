@@ -3,8 +3,8 @@ import { SocketContext } from '@/providers/SocketProvider'
 import { Message } from '@/types/Message'
 import {SendHorizonal} from "lucide-react"
 import { useSession } from 'next-auth/react'
-import React, { useContext, useState,startTransition } from 'react'
-
+import React, { useContext, useState } from 'react'
+import {v4} from "uuid"
 
  type Props = {
   
@@ -26,10 +26,10 @@ const ImputMessage = ({idChat,idUserFriend,setMessage}:Props) => {
  const onSubmit = (e:React.FormEvent<HTMLFormElement>) => {
 
     e.preventDefault()
-  
+    if(text == "") return
     setMessage(old => {
       if(old?.length > 0){
-        return [...old,{text,user_id: data?.user.id!}]
+        return [...old,{text:text.trim(),user_id: data?.user.id!,_id:v4()}]
       }
       return old
     })
@@ -42,9 +42,8 @@ const ImputMessage = ({idChat,idUserFriend,setMessage}:Props) => {
       setText(newText)
  }
 
- const session = useSession()
-  
 
+  
   return (
     <div className='fixed bottom-0 w-full max-w-2xl h-[70px] bg-blue-600 flex justify-center items-center'>
       <form className="w-[80%] flex" onSubmit={onSubmit}>

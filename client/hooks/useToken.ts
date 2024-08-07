@@ -8,7 +8,7 @@ export const useToken = () => {
 
     const setTokenStorageFromSession = async() => {
         const token = await getSessionToken()
-        console.log(token,"eltoken")
+     
         if(!token) return
         localStorage.setItem("token",token)
         setIsToken(true)

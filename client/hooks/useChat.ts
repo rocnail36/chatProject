@@ -3,10 +3,11 @@ import { Message } from "@/types/Message"
 import { User } from "next-auth"
 
 import { useEffect, useRef, useState } from "react"
+import { Socket } from "socket.io-client"
 
 
 
-export const useChat = (id:string) => {
+export const useChat = (id:string,socket:Socket|undefined) => {
 
 
     const [message, setmessage] = useState<Message[]>([])
@@ -28,6 +29,15 @@ export const useChat = (id:string) => {
  
     getChat()
   },[])
+
+
+  useEffect(() => {
+    socket?.on("sendMessage:server",(data) => {
+    setmessage(data)
+    })
+  return () => {
+  }
+},[socket])
 
 
   return {

@@ -16,7 +16,7 @@ type Props = {
     const [chats,setChats] = useState<any[]>()
 
     useEffect(() => {
-        console.log("a")
+        
         pFecth(`/user/chats${input ? `/${input}`: ""}`,"GET",undefined,"no-cache")
         .then(result => setChats(result.chats))
       },[input,socket,isToken])
