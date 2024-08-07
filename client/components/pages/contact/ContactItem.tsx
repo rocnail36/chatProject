@@ -7,12 +7,12 @@ import React from 'react'
 
 
 type props = {
-  id:string
+  _id:string
   name:string,
   status: string
 }
 
-const ContactItem = ({name,id, status}:props) => {
+const ContactItem = ({name,_id, status}:props) => {
 
 
   
@@ -21,7 +21,7 @@ const ContactItem = ({name,id, status}:props) => {
 
 
   return (
-    <Link href={`/message/${id}/${name}`}>
+    <Link href={`/message/${_id}/${name}`}>
     <div className='flex justify-between items-center px-4 py-4 border-solid border-y-[1px] border-gray-200 cursor-pointer border-collapse'>
     <div className='flex items-center'>
     <Avatar className="overflow-hidden mr-4 w-[50px] h-[50px]">

@@ -28,7 +28,7 @@ async sendMessage(dto: SendMessageDto): Promise<MessageEntity[]> {
        chat.markModified("modified")
        
        await (await chat.save()).populate("message_id")
-       
+       console.log(chat.message_id)
        return chat.message_id.map(message => MessageEntity.mapper(message))
        
 

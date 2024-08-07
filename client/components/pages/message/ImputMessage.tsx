@@ -28,10 +28,7 @@ const ImputMessage = ({idChat,idUserFriend,setMessage}:Props) => {
     e.preventDefault()
     if(text == "") return
     setMessage(old => {
-      if(old?.length > 0){
         return [...old,{text:text.trim(),user_id: data?.user.id!,_id:v4()}]
-      }
-      return old
     })
     socket?.emit("sendMessage:client",{idChat,text:text,idUserFriend})
     setText("")

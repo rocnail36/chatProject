@@ -17,7 +17,7 @@ const Page = ({
 
   const {socket} = useContext(SocketContext)
   let InputSearch = searchParams.input ?? "";
-  const [users, setusers] = useState<User[]>([]);
+  const [users, setusers] = useState<any[]>([]);
 
 
   useEffect(() => {
@@ -32,7 +32,9 @@ const Page = ({
   useEffect(() => {
 
     const handleData  = (data:any) => {
-      setusers(old => old?.map(user => user.id == data.id ? data : user))
+      console.log("se conecto un usario")
+      console.log(data)
+      setusers(old => old?.map(user => user._id == data._id ? data : user))
      }
 
      socket?.on("user-connected",handleData)
@@ -45,7 +47,7 @@ const Page = ({
 
     const handleData = (data:any) => {
    
-      setusers(old => old?.map(user => user.id == data.id ? data : user))
+      setusers(old => old?.map(user => user._id == data._id ? data : user))
      }
 
     socket?.on("user-disconnected", handleData)
@@ -80,8 +82,8 @@ const Page = ({
 
     
       <div className="h-[95%] pt-[20px] overflow-y-scroll scrollbar-hide">
-        {users?.map((user: User) => (
-          <ContactItem key={user.id} {...user} />
+        {users?.map((user) => (
+          <ContactItem key={user._id} {...user} />
         ))}
       </div>
 

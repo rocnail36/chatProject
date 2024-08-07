@@ -35,6 +35,57 @@ type Props = {
           socket?.off("sendChat:server",handleData)
         }
       },[socket])
+
+   
+
+      useEffect(() => {
+        
+        const handleData  = (data:any) => {
+          setChats(old => {
+
+              return old?.map(chat => chat.users[0]._id == data._id ? {
+                ...chat,
+                users:[{...data}]
+              } :chat )
+
+            
+          })
+       }
+    
+         socket?.on("user-connected", handleData)
+
+         return () => {
+          socket?.off("user-connected",handleData)
+         } 
+
+      },[socket])
+
+
+      useEffect(() => {
+
+        
+        const handleData  = (data:any) => {
+          setChats(old => {
+
+              return old?.map(chat => chat.users[0]._id == data._id ? {
+                ...chat,
+                users:[{...data}]
+              } :chat )
+
+            
+          })
+       }
+    
+        socket?.on("user-disconnected", handleData)
+    
+         return () => {
+          socket?.off("user-disconnected",handleData)
+         } 
+    
+      },[socket])
+
+
+   
     
       return {
         chats

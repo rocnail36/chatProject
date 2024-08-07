@@ -6,7 +6,7 @@ import { ChatEntity } from "./ChatEntity"
 export class UserEntity  {
 
     constructor(
-        public id : string,
+        public _id : string,
         public name: string,
         public email: string,
         public status: "offline" | "connected",

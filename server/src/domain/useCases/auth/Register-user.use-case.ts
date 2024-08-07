@@ -11,7 +11,7 @@ type SignToken = (payload:Object,time:string) => string
 
 type UserToken = {
     user: {
-        id:string,
+        _id:string,
         name: string,
         token: string
     }

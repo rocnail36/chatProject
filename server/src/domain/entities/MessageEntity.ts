@@ -1,6 +1,6 @@
 export class MessageEntity {
 
-  private  constructor(public id:string,public user_id:string,public text:string){
+  private  constructor(public _id:string,public user_id:string,public text:string){
    
     }
 

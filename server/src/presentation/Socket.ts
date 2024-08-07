@@ -11,11 +11,13 @@ import { MessageDataSourceImpl } from "../structure/dataSources/MessageDatasourc
 import { SendMessage } from "../domain/useCases/message/sendMessage.use-case";
 import { GetChats } from "../domain/useCases/chats/getChats.use-case";
 import { envs } from "../config/Env";
+import { UserEntity } from "../domain/entities";
 
 
 const {CLIENT} = envs
 
 export class SocketServer {
+  private user: UserEntity | undefined = undefined
   static instance: SocketServer
   public io: createServer;
   private userDataSource = new UserDataSourceImpl();
@@ -60,68 +62,90 @@ export class SocketServer {
     return [undefined, token];
   }
 
+
+  public async connectUser(userToken:{_id:string},socket:Socket){
+    const changeStatus = new ChangeStatus(this.userRepository);
+    this.user = await changeStatus.execute(userToken._id, true);
+
+    // avisar a los demas usuarios
+
+    socket.broadcast.emit("user-connected", this.user);
+  }
+
+  public async disconnetUser(userToken:{_id:string},socket:Socket){
+    socket.on("disconnect", async () => {
+      const changeStatus = new ChangeStatus(this.userRepository);
+      this.user = await changeStatus.execute(userToken._id, false);
+      
+      this.io.emit("user-disconnected",this.user);
+    });
+  }
+
+
+  public async sendMessage(userToken:{_id:string},socket:Socket){
+    socket.on("sendMessage:client", async(data) => {
+      console.log(data)
+      try {
+        const {idChat,text,idUserFriend} = data
+        const  [error1, dto1] =  SendMessageDto.create(idChat,userToken!._id,idUserFriend,text)
+        const  [error2,dto2] = GetChatsDto.createDto(idUserFriend)
+         if(error1 || error2) throw new Error(error1||error2)
+
+        const sendMessage = new SendMessage(this.messageRepository)
+        const getChats = new GetChats(this.chatRepository)
+        const message = await sendMessage.execute(dto1!)
+        const chat = await getChats.execute(dto2!)
+      
+        
+        this.io.to(idUserFriend).emit("sendMessage:server",message)
+        this.io.to(idUserFriend).emit("sendChat:server",chat)
+       
+      } catch (error) {
+          console.log(error)
+      }
+      
+      
+       
+    });
+
+  }
+
+
+
   public async start() {
     this.io.on("connection", async (socket) => {
-      let user;
+     
  
-      // handshake y jwt
 
-      const [error, token] = this.verifyHandShake(socket);
-      console.log(error)
-      console.log("socket connected")
-      if (error) return;
 
-      const userToken = JWT.verifyJWT<{ id: string }>(token!);
-      
-        if (!userToken) {
-        socket.disconnect(true);
-          return
-      }
     
-      socket.join(userToken!.id);
 
       try {
-        //conectar usuario
-        const changeStatus = new ChangeStatus(this.userRepository);
-        user = await changeStatus.execute((userToken as { id: string }).id, true);
+     
 
-        // avisar a los demas usuarios
 
-        this.io.emit("user-connected", user);
+        const [error, token] = this.verifyHandShake(socket);
+     
+        if (error) return;
+        console.log(token)
+        const userToken = JWT.verifyJWT<{ _id: string }>(token!);
+        
+          if (!userToken) {
+          socket.disconnect(true);
+            return
+        }
+      
+        socket.join(userToken!._id);
 
-        socket.on("disconnect", async () => {
-          user = await changeStatus.execute((userToken as { id: string }).id, false);
+        console.log(userToken)
 
-          this.io.emit("user-disconnected", user);
-        });
+      await this.connectUser(userToken,socket)
+      
+      await this.disconnetUser(userToken,socket)
 
-        socket.on("sendMessage:client", async(data) => {
+      await this.sendMessage(userToken,socket)
 
-          try {
-            const {idChat,text,idUserFriend} = data
-            const  [error1, dto1] =  SendMessageDto.create(idChat,userToken!.id,idUserFriend,text)
-            const  [error2,dto2] = GetChatsDto.createDto(idUserFriend)
-             if(error1 || error2) throw new Error(error)
-
-            const sendMessage = new SendMessage(this.messageRepository)
-            const getChats = new GetChats(this.chatRepository)
-            const message = await sendMessage.execute(dto1!)
-            const chat = await getChats.execute(dto2!)
-           
-            
-            
-            this.io.to(idUserFriend).emit("sendMessage:server",message)
-            this.io.to(idUserFriend).emit("sendChat:server",chat)
-            this.io.to(userToken!.id).emit("sendMessage:server",message)
-           
-          } catch (error) {
-              console.log(error)
-          }
-          
-          
-           
-        });
-
+      
         
       } catch (error) {
         console.log(error);
@@ -131,4 +155,8 @@ export class SocketServer {
   }
 
   
+
+
+
+
 }

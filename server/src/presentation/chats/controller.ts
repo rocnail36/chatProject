@@ -13,9 +13,11 @@ export class ChatController {
 
     getChat(req:Request,res:Response){
 
-         const [error,dto] = GetChatDto.createDto(req.body.user.id,req.params.id)
+        
+        
+         const [error,dto] = GetChatDto.createDto(req.body.user._id,req.params.id)
          if(error) res.status(400).json(error)
-
+            console.log(dto,"adssds")
          new GetChat(this.repository)
          .execute(dto!)
          .then(result => res.json(result))

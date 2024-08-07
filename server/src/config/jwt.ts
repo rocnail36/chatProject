@@ -20,12 +20,12 @@ export class JWT {
     try {
       const tokenVerified = jwt.verify(token, envs.SECRET)
       if(!tokenVerified){
-        return null
+        throw Error("invalid token")
       }
       return tokenVerified as t
     } catch (error) {
       console.log(error)
-       return null
+      throw error
     }
 
    

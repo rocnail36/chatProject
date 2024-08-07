@@ -17,7 +17,7 @@ export const useChat = (id:string,socket:Socket|undefined) => {
     const getChat = async() => {
 
     const data = await pFecth(`/chat/${id}`,"GET",undefined,"no-cache")
-  
+    
     setmessage(data.message_id)
 
       idChat.current = data.id
@@ -33,6 +33,7 @@ export const useChat = (id:string,socket:Socket|undefined) => {
 
   useEffect(() => {
     socket?.on("sendMessage:server",(data) => {
+      console.log("asddfqwe")
     setmessage(data)
     })
   return () => {

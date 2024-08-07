@@ -13,6 +13,9 @@ export class UserDataSourceImpl extends UserDataSource {
     query?: string
   ): Promise<UserEntity[]> {
     try {
+
+
+      
       const searchQuery: FilterQuery<IUser> = {
         _id: { $ne: getAllUserDto.id },
       };
@@ -33,6 +36,8 @@ export class UserDataSourceImpl extends UserDataSource {
 
   async changeState(id: string, status: boolean): Promise<UserEntity> {
     try {
+
+     
       const user = await User.findByIdAndUpdate(
         id,
         { status: status ? "connected" : "offline" },
@@ -58,12 +63,13 @@ export class UserDataSourceImpl extends UserDataSource {
       if(query){
         querymatch.name = {$regex:query,$options:"i"}
       }
-
+      
+      
       const user = await User.findById(id).populate({path:"chats" ,options:{sort: {modified:-1}},populate: [{path:"users",select:["name","status"],match:querymatch},{path:"message_id",options:{sort:{modified:-1},perDocumentLimit:1}}]})
-     
+      console.log(user,"aqui")
       return UserEntity.mapper(user!)
     } catch (error) {
-      
+      console.log(error,"error")
       throw error
 
     }

@@ -13,6 +13,11 @@ export const useToken = () => {
         localStorage.setItem("token",token)
         setIsToken(true)
         }
+
+
+        useEffect(() => {
+            setIsToken(!!localStorage.getItem("token"))
+        },[])
     
 
     return {

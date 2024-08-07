@@ -12,6 +12,7 @@ declare module "next-auth" {
     user: {
       /** The user's postal address. */
       token: string;
+      _id:string
       /**
        * By default, TypeScript merges new interface properties and overwrites existing ones.
        * In this case, the default session user properties will be overwritten,
@@ -88,7 +89,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     jwt({ token, user }) {
       if (user) {
         // User is available during sign-in
-        token.id = user.id;
+        token.id = (user as {_id:string})._id;
         token.token = (user as { token: string }).token;
       }
       return token;

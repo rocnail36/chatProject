@@ -10,7 +10,7 @@ type SignToken = (payload:Object) => string
 
 type UserToken = {
     user: {
-        id:string,
+        _id:string,
         name: string,
         token: string
     }
