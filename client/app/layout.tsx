@@ -6,6 +6,7 @@ import SockectProvider from "@/providers/SocketProvider";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import Head from "next/head";
+import { TokenProvider } from "@/providers/TokenProvider";
 
 
 const roboto = Roboto({ subsets: ["latin"] ,weight:["100","300","400","500","700","900"],variable:"--font-roboto"});
@@ -26,7 +27,9 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
+
     <SessionProvider session={session}>
+      <TokenProvider>
       <SockectProvider>
       
       <body className={cn(
@@ -34,6 +37,7 @@ export default async function RootLayout({
           roboto.variable
         )}>{children}</body>
         </SockectProvider>
+        </TokenProvider>
         </SessionProvider>
     </html>
   );

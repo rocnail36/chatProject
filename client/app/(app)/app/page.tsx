@@ -2,11 +2,11 @@
 import { Search } from '@/components/forms'
 import React, { useContext, useEffect, useState } from 'react'
 import  { SocketContext } from '@/providers/SocketProvider'
-import { getSessionToken } from '@/actions'
-import { pFecth } from '@/lib'
 import MessageItem from '@/components/pages/app/MessageItem'
 import { Button } from '@/components/ui/button'
 import { signOut } from "next-auth/react"
+import { useChats } from '@/hooks/useChats'
+import { TokenContex,  } from '@/providers/TokenProvider'
 
 const Page = ({searchParams}:{
   params: { slug: string }
@@ -14,45 +14,17 @@ const Page = ({searchParams}:{
 }) => {
   
 
- const {setToken,socket} = useContext(SocketContext)
-  
-  const getTokenFromSession = async() => {
-    const token = await getSessionToken()
-    if(!token) return
-    setToken(token)
-    localStorage.setItem("token",token)
-  }
+    const {input} = searchParams
+    const {isToken,setTokenStorageFromSession} = useContext(TokenContex)
+    const {socket} = useContext(SocketContext)
+    const {chats} = useChats({socket,input,isToken})
 
-  const {input} = searchParams
-  
- 
 
-  const [chats,setChats] = useState<any[]>()
-
-  useEffect(() => {
-    if(socket) return
-    getTokenFromSession()
-  },[])
-
-  useEffect(() => {
-    pFecth(`/user/chats${input ? `/${input}`: ""}`,"GET",undefined,"no-cache")
-    .then(result => setChats(result.chats))
-  },[input,socket])
-
-  useEffect(() => {
-
-    const handleData = (data:any) => {
-      setChats(data)
-    }
-
-    socket?.on("sendChat:server",handleData)
-
-    return () => {
-      socket?.off("sendChat:server",handleData)
-    }
-
-  },[socket])
-
+    useEffect(() => {
+     if(!isToken){
+      setTokenStorageFromSession()
+     }
+    },[])
 
   return (
     <div className='m-auto px-4 pt-[140px] pb-[80px] relative h-[100vh] bg-white'>

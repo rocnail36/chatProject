@@ -14,9 +14,10 @@ import {
   FormMessage,
 } from "@/components/ui/form" 
 import { Input } from '../ui/input'
-import { sign } from '@/actions'
+import { getSessionToken, sign } from '@/actions'
 import ErrorC from '../layout/Error'
 import { useError } from '@/hooks/useError'
+import { useRouter } from 'next/navigation'
 
 
 
@@ -37,16 +38,15 @@ const LogForm = () => {
           password:""
         },
       })
+
+      const router = useRouter()
+
+   
      
       // 2. Define a submit handler.
      async function onSubmit(values: z.infer<typeof formSchema>) {
-        
         sign(values)
-        .catch(err => {
-          triggerError()
-          console.log("error",err)
-        })
- 
+       .catch(err => triggerError())
       }
     
 
